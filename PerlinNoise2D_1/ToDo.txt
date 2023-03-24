@@ -1,0 +1,7 @@
+﻿* Add parameters for noise generation:
+	* octives
+	* frequency
+	* amplitute
+	* noise image size
+	* etc
+* Add remap function to interval [0, 1] (or any other interval)

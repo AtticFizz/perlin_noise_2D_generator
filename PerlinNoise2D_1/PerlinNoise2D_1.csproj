@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NoiseGenerator2\NoiseGenerator2.csproj" />
+    <ProjectReference Include="..\TerrainGenerator\TerrainGenerator.csproj" />
   </ItemGroup>
 
 </Project>
