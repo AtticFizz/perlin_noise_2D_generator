@@ -5,9 +5,9 @@ VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PerlinNoise2D_1", "PerlinNoise2D_1\PerlinNoise2D_1.csproj", "{ED464148-71D0-468B-A3EC-9AC96EF2109D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoiseGeneration", "PerlinNoise\NoiseGeneration.csproj", "{5097F181-8205-4F6D-8ECD-E633E2633B90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp", "Console\ConsoleApp.csproj", "{6A2228C6-4640-4C98-8186-6D9DAD59B5D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp", "Console\ConsoleApp.csproj", "{6A2228C6-4640-4C98-8186-6D9DAD59B5D1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoiseGenerator2", "NoiseGenerator2\NoiseGenerator2.csproj", "{7F828E2D-3FDA-4EC5-81C2-4DA7195C9D74}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,14 +19,14 @@ Global
 		{ED464148-71D0-468B-A3EC-9AC96EF2109D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED464148-71D0-468B-A3EC-9AC96EF2109D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED464148-71D0-468B-A3EC-9AC96EF2109D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5097F181-8205-4F6D-8ECD-E633E2633B90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5097F181-8205-4F6D-8ECD-E633E2633B90}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5097F181-8205-4F6D-8ECD-E633E2633B90}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5097F181-8205-4F6D-8ECD-E633E2633B90}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6A2228C6-4640-4C98-8186-6D9DAD59B5D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6A2228C6-4640-4C98-8186-6D9DAD59B5D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A2228C6-4640-4C98-8186-6D9DAD59B5D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A2228C6-4640-4C98-8186-6D9DAD59B5D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F828E2D-3FDA-4EC5-81C2-4DA7195C9D74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F828E2D-3FDA-4EC5-81C2-4DA7195C9D74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F828E2D-3FDA-4EC5-81C2-4DA7195C9D74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F828E2D-3FDA-4EC5-81C2-4DA7195C9D74}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

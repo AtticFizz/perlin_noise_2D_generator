@@ -270,7 +270,7 @@ public static class PerlinNoise2D
         return noise;
     }
 
-    private static double[,] LerpHorizontal(double[,] noise1, double[,] noise2, int x1, int x2, int y1, int y2)
+    public static double[,] LerpHorizontal(double[,] noise1, double[,] noise2, int x1, int x2, int y1, int y2)
     {
         int pointCount = x2 - x1 - 1;
 
@@ -303,7 +303,7 @@ public static class PerlinNoise2D
         return noise1;
     }
 
-    private static double[,] LerpVertical(double[,] noise1, double[,] noise2, int x1, int x2, int y1, int y2)
+    public static double[,] LerpVertical(double[,] noise1, double[,] noise2, int x1, int x2, int y1, int y2)
     {
         int pointCount = x2 - x1 - 1;
 
@@ -322,6 +322,59 @@ public static class PerlinNoise2D
         }
 
         return noise1;
+    }
+
+    public static double[,] Lerp(double[,] noise1, double[,] noise2, int x1, int x2, int y1, int y2)
+    {
+        double[,] noise = new double[noise1.GetLength(0), noise1.GetLength(1)];
+        int pointCount = x2 - x1 - 1;
+
+        for (int x = x1; x < x2; x++)
+        {
+            for (int y = y1 + 1; y < y2; y++)
+            {
+                double length = noise2[x, y] - noise1[x, y];
+                int pointIndex = y - y1;
+                double xStep = (pointIndex / (double)pointCount);
+                double multiplier = SmoothStep(xStep);
+                noise[x, y] = noise1[x, y] + multiplier * (noise2[x, y] - noise1[x, y]);
+            }
+        }
+
+        return noise;
+    }
+
+    public static double[,] LerpX(double[,] noise1, double[,] noise2)
+    {
+        double[,] noise = new double[noise1.GetLength(0), noise1.GetLength(1)];
+        for (int y = 0; y < noise1.GetLength(1); y++)
+        {
+            for (int x = 0; x < noise1.GetLength(0); x++)
+            {
+                double multiplier = SmoothStep(x);
+                noise[x, y] = noise1[x, y] + multiplier * (noise2[x, y] - noise1[x, y]);
+            }
+        }
+        return noise;
+    }
+
+    public static double[,] LerpY(double[,] noise1, double[,] noise2)
+    {
+        double[,] noise = new double[noise1.GetLength(0), noise1.GetLength(1)];
+        for (int x = 0; x < noise1.GetLength(0); x++)
+        {
+            for (int y = 0; y < noise1.GetLength(1); y++)
+            {
+                double multiplier = SmoothStep(y);
+                noise[x, y] = noise1[x, y] + multiplier * (noise2[x, y] - noise1[x, y]);
+            }
+        }
+        return noise;
+    }
+
+    public static double SmoothStep(double x)
+    {
+        return 6 * Math.Pow(x, 5) - 15 * Math.Pow(x, 4) + 10 * Math.Pow(x, 3);
     }
 
     [SupportedOSPlatform("windows")]

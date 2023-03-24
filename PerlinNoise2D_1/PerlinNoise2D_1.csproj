@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PerlinNoise\NoiseGeneration.csproj" />
+    <ProjectReference Include="..\NoiseGenerator2\NoiseGenerator2.csproj" />
   </ItemGroup>
 
 </Project>
