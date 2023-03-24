@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
+﻿using System.Drawing;
 using System.Runtime.Versioning;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace NoiseGenerator2;
+namespace NoiseGeneration;
 
-public static class PerlinNoise2D
+public class PerlinNoiseGenerator
 {
-    private static int _seed;
-    public static int Seed
+    private int _seed;
+    public int Seed
     {
         get
         {
@@ -26,38 +20,61 @@ public static class PerlinNoise2D
         }
     }
 
-    private static Random _randomNumberGenerator;
-    private static List<int> _permutation;
+    public int Width { get; set; }
+    public int Height { get; set; }
 
-    static PerlinNoise2D()
+    public int Octives { get; set; }
+    public double Amplitude { get; set; }
+    public double AmplitudeChange { get; set; }
+    public double Frequency { get; set; }
+    public double FrequencyChange { get; set; }
+
+    private double _currentAmplitude;
+    private double _currentFrequency;
+
+    private Random _randomNumberGenerator;
+    private List<int> _permutation;
+
+    public delegate double FadeFunction(double t);
+    public FadeFunction Fade { get; set; }
+
+    public delegate Vector2 GenerateConstantVectorFunction(double t);
+    public GenerateConstantVectorFunction GetConstantVector { get; set; }
+
+    public PerlinNoiseGenerator()
     {
+        Width = 256;
+        Height = 256;
+
+        Octives = 8;
+        Amplitude = 1;
+        AmplitudeChange = 0.5;
+        Frequency = 0.005;
+        FrequencyChange = 2;
+
+        _currentAmplitude = Amplitude;
+        _currentFrequency = Frequency;
+
+        _seed = 0;
         _randomNumberGenerator = new Random(0);
         _permutation = MakePermutation();
+
+        Fade = Fade_Default;
+        GetConstantVector = GetConstantVector_Default;
     }
 
-    private static void Shuffle(this List<int> list)
-    {
-        for (int i = list.Count - 1; i > 1; i--)
-        {
-            int index = _randomNumberGenerator.Next(i + 1);
-            int value = list[index];
-            list[index] = list[i];
-            list[i] = value;
-        }
-    }
-
-    private static List<int> MakePermutation()
+    private List<int> MakePermutation()
     {
         List<int> permutation = new List<int>();
         for (int i = 0; i < 256; i++)
             permutation.Add(i);
-        permutation.Shuffle();
+        permutation.Shuffle(_randomNumberGenerator);
         for (int i = 0; i < 256; i++)
             permutation.Add(permutation[i]);
         return permutation;
     }
 
-    private static Vector2 GetConstatntVector(double t)
+    private Vector2 GetConstantVector_Default(double t)
     {
         double t_wrapped = t % 3;
         if (t_wrapped == 0)
@@ -69,17 +86,17 @@ public static class PerlinNoise2D
         return new Vector2(1, -1);
     }
 
-    private static double Fade(double t)
+    private double Fade_Default(double t)
     {
         return ((6 * t - 15) * t + 10) * t * t * t;
     }
 
-    private static double Lerp(double t, double a1, double a2)
+    private double Lerp(double t, double a1, double a2)
     {
         return a1 + t * (a2 - a1);
     }
 
-    public static double CreateNoiseValue(double x, double y)
+    public double CreateNoiseValue(double x, double y)
     {   
         int x_corner = (int)Math.Floor(x) % 255;
         int y_corner = (int)Math.Floor(y) % 255;
@@ -97,10 +114,10 @@ public static class PerlinNoise2D
         Vector2 v_br = new Vector2(x_decimal - 1, y_decimal);
         Vector2 v_bl = new Vector2(x_decimal, y_decimal);
 
-        double dotProduct_tr = v_tr.Dot(GetConstatntVector(t_tr));
-        double dotProduct_tl = v_tl.Dot(GetConstatntVector(t_tl));
-        double dotProduct_br = v_br.Dot(GetConstatntVector(t_br));
-        double dotProduct_bl = v_bl.Dot(GetConstatntVector(t_bl));
+        double dotProduct_tr = v_tr.Dot(GetConstantVector(t_tr));
+        double dotProduct_tl = v_tl.Dot(GetConstantVector(t_tl));
+        double dotProduct_br = v_br.Dot(GetConstantVector(t_br));
+        double dotProduct_bl = v_bl.Dot(GetConstantVector(t_bl));
         
         double u = Fade(x_decimal);
         double v = Fade(y_decimal);
@@ -111,32 +128,31 @@ public static class PerlinNoise2D
         return Lerp(u, interpolatedLeft, interpolatedRight);
     }
 
-    public static double CreateFractalBrownianMotionValue(double x, double y, int octives)
+    public double CreateFractalBrownianMotionValue(double x, double y)
     {
-        double result = 0;
-        double amplitude = 1;
-        double frequency = 0.005;
+        _currentAmplitude = Amplitude;
+        _currentFrequency = Frequency;
 
-        for (int octive = 0; octive < octives; octive++)
+        double result = 0;
+        for (int octive = 0; octive < Octives; octive++)
         {
-            double t = amplitude * CreateNoiseValue(x * frequency, y * frequency);
-            result += t;
-            amplitude *= 0.5;
-            frequency *= 2;
+            result += _currentAmplitude * CreateNoiseValue(x * _currentFrequency, y * _currentFrequency);
+            _currentAmplitude *= AmplitudeChange;
+            _currentFrequency *= FrequencyChange;
         }
 
         return result;
     }
 
-    public static double[,] Create()
+    public double[,] CreateNoise()
     {
-        double[,] noise = new double[256, 256];
+        double[,] noise = new double[Width, Height];
 
-        for (int y = 0; y < 256; y++)
+        for (int y = 0; y < Height; y++)
         {
-            for (int x = 0; x < 256; x++)
+            for (int x = 0; x < Width; x++)
             {
-                noise[x, y] = CreateFractalBrownianMotionValue(x, y, 8);
+                noise[x, y] = CreateFractalBrownianMotionValue(x, y);
             }
         }
 

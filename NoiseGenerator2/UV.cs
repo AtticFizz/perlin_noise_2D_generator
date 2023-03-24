@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Runtime.Versioning;
 
-namespace NoiseGenerator2;
+namespace NoiseGeneration;
 
 public static class UV
 {

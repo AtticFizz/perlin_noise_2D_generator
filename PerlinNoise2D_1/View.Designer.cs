@@ -1,4 +1,4 @@
-﻿namespace PerlinNoise2D_1
+﻿namespace FormsApp
 {
     partial class View
     {
@@ -39,7 +39,7 @@
             this.debugTextbox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.debugTextbox.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.debugTextbox.ForeColor = System.Drawing.Color.LimeGreen;
-            this.debugTextbox.Location = new System.Drawing.Point(12, 273);
+            this.debugTextbox.Location = new System.Drawing.Point(12, 933);
             this.debugTextbox.Name = "debugTextbox";
             this.debugTextbox.ReadOnly = true;
             this.debugTextbox.Size = new System.Drawing.Size(380, 96);
@@ -56,7 +56,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(404, 381);
+            this.ClientSize = new System.Drawing.Size(1904, 1041);
             this.Controls.Add(this.debugTextbox);
             this.Name = "View";
             this.Text = "View";

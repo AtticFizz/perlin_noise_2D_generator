@@ -1,20 +1,24 @@
-﻿using NoiseGenerator2;
+﻿using NoiseGeneration;
 using System.Drawing;
 using System.Runtime.Versioning;
 
-namespace TerrainGenerator;
+namespace TerrainGeneration;
 
-public static class CustomTerrainGenerator
+public class TerrainGenerator
 {
-    public static double TresholdSea { get; set; }
-    public static double TresholdSurface { get; set; }
+    public PerlinNoiseGenerator PerlinNoiseGenerator { get; set; }
 
-    public static Color ColorSea { get; set; }
-    public static Color ColorSurface { get; set; }
-    public static Color ColorMountains { get; set; }
+    public double TresholdSea { get; set; }
+    public double TresholdSurface { get; set; }
 
-    static CustomTerrainGenerator()
+    public Color ColorSea { get; set; }
+    public Color ColorSurface { get; set; }
+    public Color ColorMountains { get; set; }
+
+    public TerrainGenerator()
     {
+        PerlinNoiseGenerator = new PerlinNoiseGenerator();
+
         TresholdSea = 0.95;
         TresholdSurface = 0.5;
 
@@ -24,9 +28,9 @@ public static class CustomTerrainGenerator
     }
 
     [SupportedOSPlatform("windows")]
-    public static Bitmap Create()
+    public Bitmap Create()
     {
-        double[,] noise = PerlinNoise2D.Create();
+        double[,] noise = PerlinNoiseGenerator.CreateNoise();
         int width = noise.GetLength(0);
         int height = noise.GetLength(1);
         Bitmap noiseImage = new Bitmap(width, height);

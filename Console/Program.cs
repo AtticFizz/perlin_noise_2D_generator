@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Drawing.Text;
-using NoiseGenerator2;
+using NoiseGeneration;
 
 namespace ConsoleApp;
 
@@ -10,12 +10,15 @@ internal static class Application
     {
         int width = 7;
         int height = 7;
+
+        PerlinNoiseGenerator perlinNoiseGenerator = new PerlinNoiseGenerator();
+        
         double[,] noise = new double[width, height];
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
             {
-                noise[x, y] = PerlinNoise2D.CreateNoiseValue(x * 1, y * 1);
+                noise[x, y] = perlinNoiseGenerator.CreateNoiseValue(x * 1, y * 1);
             }
         }
         PrintNoise(noise, width, height);

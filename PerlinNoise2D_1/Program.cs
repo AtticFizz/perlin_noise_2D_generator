@@ -1,4 +1,4 @@
-namespace PerlinNoise2D_1;
+namespace FormsApp;
 
 internal static class Program
 {

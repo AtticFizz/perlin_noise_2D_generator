@@ -1,6 +1,6 @@
-﻿namespace NoiseGenerator2;
+﻿namespace NoiseGeneration;
 
-internal class Vector2
+public class Vector2
 {
     public double x { get; private set; }
     public double y { get; private set; }

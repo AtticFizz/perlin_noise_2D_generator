@@ -1,13 +1,16 @@
 using System.Numerics;
 using System;
-using NoiseGenerator2;
-using TerrainGenerator;
+using NoiseGeneration;
+using TerrainGeneration;
 
-namespace PerlinNoise2D_1;
+namespace FormsApp;
 
 public partial class View : Form
 {
     private static readonly bool DEBUG_VISIBLE = false;
+
+    private PerlinNoiseGenerator PerlinNoiseGenerator;
+    private TerrainGenerator TerrainGenerator;
 
     private Bitmap _image;
 
@@ -17,7 +20,9 @@ public partial class View : Form
         Debug.Initialize(debugTextbox);
         Debug.SetVisibility(DEBUG_VISIBLE);
 
-        PerlinNoise2D.Seed = 1234;
+        PerlinNoiseGenerator = new PerlinNoiseGenerator();
+        TerrainGenerator = new TerrainGenerator();
+
         _image = UV.Create(ClientSize.Width, ClientSize.Height);
     }
 
@@ -36,28 +41,48 @@ public partial class View : Form
 
     private void framerateTimer_Tick(object sender, EventArgs e)
     {
-        //double[,] noise = PerlinNoise2D.Create();
-        //_image = PerlinNoise2D.ToBitmap(noise);
+        // CreateNoise();
+        CreateTerrain();
+        Refresh();
+    }
 
-        //double[,] noise = new double[ClientSize.Width, ClientSize.Height];
-        //for (int y = 0; y < ClientSize.Height; y++)
-        //{
-        //    for (int x = 0; x < ClientSize.Width; x++)
-        //    {
-        //        noise[x, y] = PerlinNoise2D.CreateNoiseValue(x * 0.01, y * 0.01);
-        //    }
-        //}
-        //_image = PerlinNoise2D.ToBitmap(noise);
-
+    private void CreateNoise()
+    {
         if (createOnce)
         {
-            CustomTerrainGenerator.TresholdSea = 0.000005;
-            CustomTerrainGenerator.TresholdSurface = 0.55;
-            _image = CustomTerrainGenerator.Create();
+            PerlinNoiseGenerator.Seed = 69420;
+            PerlinNoiseGenerator.Width = ClientSize.Width;
+            PerlinNoiseGenerator.Height = ClientSize.Height;
+            PerlinNoiseGenerator.Octives = 8;
+            PerlinNoiseGenerator.Amplitude = 0.9;
+            PerlinNoiseGenerator.AmplitudeChange = 0.5;
+            PerlinNoiseGenerator.Frequency = 0.007;
+            PerlinNoiseGenerator.FrequencyChange = 2;
+            double[,] noise = PerlinNoiseGenerator.CreateNoise();
+            _image = PerlinNoiseGenerator.ToBitmap(noise);
             createOnce = false;
         }
+    }
 
-        Refresh();
+    private void CreateTerrain()
+    {
+        if (createOnce)
+        {
+            TerrainGenerator.TresholdSea = 0.000005;
+            TerrainGenerator.TresholdSurface = 0.55;
+
+            TerrainGenerator.PerlinNoiseGenerator.Seed = 6942069;
+            TerrainGenerator.PerlinNoiseGenerator.Width = ClientSize.Width;
+            TerrainGenerator.PerlinNoiseGenerator.Height = ClientSize.Height;
+            TerrainGenerator.PerlinNoiseGenerator.Octives = 8;
+            TerrainGenerator.PerlinNoiseGenerator.Amplitude = 0.9;
+            TerrainGenerator.PerlinNoiseGenerator.AmplitudeChange = 0.5;
+            TerrainGenerator.PerlinNoiseGenerator.Frequency = 0.007;
+            TerrainGenerator.PerlinNoiseGenerator.FrequencyChange = 2;
+
+            _image = TerrainGenerator.Create();
+            createOnce = false;
+        }
     }
 
 }
